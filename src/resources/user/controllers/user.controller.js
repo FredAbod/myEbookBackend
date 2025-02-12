@@ -3,12 +3,14 @@ import Transaction  from '../models/transactions.js';
 import { sendPaymentReceivedEmail } from '../../../utils/email/email-sender.js';
 // import ejs from 'ejs';
 import path from 'path';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const payWithFlutterWave = async (req, res) => {
   try {
     console.log("Webhook triggered");
 
-    const secretHash = process.env.FLW_SECRET_HASH_ACADEMY;
+    const secretHash = process.env.FLW_SECRET_HASH;
     const signature = req.headers["verif-hash"];
 
     if (!signature || signature !== secretHash) {

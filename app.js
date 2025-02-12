@@ -20,7 +20,7 @@ app.use(xssClean());
 app.use(mongoSanitize());
 
 app.get("/", (req, res) => {
-  res.send("Welcome to Savey app 💵💵💵");
+  res.send("Welcome to My Ebook Backend");
 });
 
 // Define rate limiter options
