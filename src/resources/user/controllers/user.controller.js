@@ -1,4 +1,4 @@
-import Transaction  from '../models/transactions.js';
+import Transaction from '../models/transactions.js';
 // import { User } from '../models/user.js';
 import { sendPaymentReceivedEmail } from '../../../utils/email/email-sender.js';
 // import ejs from 'ejs';
@@ -17,6 +17,8 @@ export const payWithFlutterWave = async (req, res) => {
       console.log("Invalid signature: Signature doesn't match the secret hash.");
       return res.status(401).json({ message: "Unauthorized: Invalid signature" });
     }
+
+    console.log("Request body:", req.body); // Log the entire request body
 
     const event = req.body["event.type"];
     const { data } = req.body;
