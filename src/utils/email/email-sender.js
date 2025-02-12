@@ -6,6 +6,7 @@ import verificationTemplate from "../templates/verification-template.js";
 import welcomeTemplate from "../templates/welcome-template.js";
 import fgPasswordTemplate from "../templates/FgPassword-template.js";
 import resetPasswordTemplate from "../templates/resetPassword-template.js";
+import paymentReceivedTemplate from "../templates/payment-received-template.js";
 
 // send a welcome message
 const sendWelcomeEmail = async (email, firstName) => {
@@ -302,8 +303,32 @@ const sendPDFToUserEmail = (transactions, userEmail) => {
   });
 };
 
+const sendPaymentReceivedEmail = async (email, firstName, ebookLink) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "pop.gmail.com",
+      host: "pop.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_NODEMAILER,
+        pass: process.env.PASSWORD_NODEMAILER,
+      },
+    });
 
-
+    const mailOptions = {
+      from: process.env.EMAIL_NODEMAILER,
+      to: email,
+      subject: "Payment Received Successfully",
+      html: paymentReceivedTemplate(firstName, ebookLink),
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`${new Date().toLocaleString()} - Email sent successfully: ${info.response}`);
+  } catch (error) {
+    console.log("Email error:", error.message);
+    throw new Error("Couldn't send payment received email.");
+  }
+};
 
 export {
   sendVerificationEmail,
@@ -313,6 +338,7 @@ export {
   sendWelcomeEmail,
   sendBudgetNotificationEmail,
   sendPDFToUserEmail,
+  sendPaymentReceivedEmail,
 };
 
 const sendMail = async (to, subject, text) => {

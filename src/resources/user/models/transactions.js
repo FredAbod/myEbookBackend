@@ -1,33 +1,24 @@
-import mongoose from 'mongoose';
+import { Schema, Types, model } from "mongoose";
 
-const transactionSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+const transactionSchema = new Schema(
+  {
+    email: { type: String, required: true, maxlength: 255 },
+    payment_reference: { type: String, required: true, maxlength: 255 },
+    transaction_details: { type: String }, // `text` in MySQL is equivalent to `String` in MongoDB
+    amount: { type: Types.Decimal128, required: true }, // Decimal in MongoDB using `Decimal128`
+    status: {
+      type: String,
+      enum: ["Pending", "successful", "Failed"],
+      required: true,
+    },
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now },
   },
-  paymentMethod: {
-    type: String,
-  },
-  amount: {
-    type: Number
-  },
-  transactionDate: {
-    type: Date,
-    default: Date.now
-  },
-  transactionReference: {
-    type: String,
-  },
-  transactionType: {
-    type: String,
-    enum: ["Deposit", "Withdrawal"]
-  },
-  status: {
-    type: String,
-    enum: ['SUCCESS', 'PENDING', 'FAILED'],
-    default: 'PENDING'
+  {
+    timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   }
-});
+);
 
-export default mongoose.model('Transaction', transactionSchema);
+const Transaction = model("Transaction", transactionSchema);
+
+export default Transaction;

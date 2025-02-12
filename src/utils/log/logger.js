@@ -4,7 +4,7 @@ const logger = pino({
   enabled: true,
   level: "info",
   transport: {
-    target: "pino-pretty",
+    target: "pino-pretty", // Ensure this target is correct and installed
     options: {
       colorize: true,
       translateTime: true,
