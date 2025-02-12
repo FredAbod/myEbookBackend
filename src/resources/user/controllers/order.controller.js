@@ -17,7 +17,7 @@ export const createOrder = async (req, res) => {
 
     await newOrder.save();
 
-    return successResMsg(res, 201, "Order created successfully", newOrder);
+    return successResMsg(res, 201, {message: "Order created successfully", newOrder});
   } catch (error) {
     console.error("Error creating order:", error);
     return errorResMsg(res, 500, "Server Error");

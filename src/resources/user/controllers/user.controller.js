@@ -18,7 +18,7 @@ export const payWithFlutterWave = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized: Invalid signature" });
     }
 
-    console.log("Request body:", req.body); // Log the entire request body
+    // console.log("Request body:", req.body); // Log the entire request body
 
     const event = req.body.event; // Update to handle the correct event field
     const { data } = req.body;
