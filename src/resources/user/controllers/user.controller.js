@@ -20,7 +20,7 @@ export const payWithFlutterWave = async (req, res) => {
 
     console.log("Request body:", req.body); // Log the entire request body
 
-    const event = req.body["event.type"];
+    const event = req.body.event; // Update to handle the correct event field
     const { data } = req.body;
 
     if (!event) {
@@ -28,7 +28,7 @@ export const payWithFlutterWave = async (req, res) => {
       return res.status(400).json({ message: "Bad request: Event is undefined" });
     }
 
-    if (event === "BANK_TRANSFER_TRANSACTION" || event === "CARD_TRANSACTION") {
+    if (event === "charge.completed") {
       const email = data.customer?.email;
       const { tx_ref: txRef, amount, status } = data;
       const fullname = data.customer?.name || "Applicant";
